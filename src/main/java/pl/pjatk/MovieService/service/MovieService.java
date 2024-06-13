@@ -42,4 +42,14 @@ public class MovieService {
     public void deleteMovie(Integer id) {
         movieRepository.deleteById(id);
     }
+
+    public Movie setIsAvailable(Integer id) {
+        movieRepository.findById(id)
+                .map(movie -> {
+                    movie.setAvailable(true);
+                    return movieRepository.save(movie);
+                }).orElseThrow(MovieNotFoundException::new);
+        return movieRepository.findById(id)
+                .orElseThrow(MovieNotFoundException::new);
+    }
 }
